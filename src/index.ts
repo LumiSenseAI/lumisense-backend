@@ -4,6 +4,8 @@ import { connectDB } from './config/database.js';
 import { cors } from 'hono/cors'
 import { initializeUsers } from './config/initIUsers.js';
 import objectRouter from './routes/objectRoutes.js'
+import authRouter from './routes/authRoutes.js';
+
 
 const app = new Hono();
 
@@ -13,6 +15,7 @@ await connectDB();
 await initializeUsers();
 
 app.route('/api/object', objectRouter);
+app.route('/api/auth', authRouter);
 
 
 serve({
