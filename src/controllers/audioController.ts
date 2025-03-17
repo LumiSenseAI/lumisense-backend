@@ -3,19 +3,17 @@ import { processAudioFile } from '../services/audioService.js';
 
 export const handleAudioUpload = async (ctx: Context) => {
     try {
-        // Utilise hono-multipart pour gérer le fichier envoyé
-        const audioFile = await ctx.req.multipart(); // Pour récupérer le fichier multipart
+        const formData = await ctx.req.parseBody();
+        const audioFile = formData['audio'];
 
-        if (!audioFile || !audioFile.audio) {
-            return ctx.json({ message: 'No audio file uploaded' }, 400);
+        if (!(audioFile instanceof File)) {
+            return ctx.json({ message: 'Fichier audio invalide' }, 400);
         }
 
-        // Appel au service pour traiter le fichier audio
-        const result = await processAudioFile(audioFile.audio); // Audio est le champ dans le multipart
+        const result = await processAudioFile(audioFile);
 
-        // Retourne un boolean en fonction du traitement du fichier
         if (result) {
-            return ctx.json({ success: true });
+            return ctx.json({ success: true, ...result });
         } else {
             return ctx.json({ success: false }, 500);
         }
