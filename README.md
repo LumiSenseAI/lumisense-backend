@@ -1,4 +1,4 @@
-# LumiSense
+# lumisense-backend
 
 ```
 npm install
