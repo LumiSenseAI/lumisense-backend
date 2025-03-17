@@ -1,15 +1,20 @@
-import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
+import { Hono } from 'hono';
+import { serve } from '@hono/node-server';
+import { connectDB } from './config/database.js';
+import { cors } from 'hono/cors'
+import { initializeUsers } from './config/initIUsers.js';
 
-const app = new Hono()
+const app = new Hono();
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+app.use(cors())
+
+await connectDB();
+await initializeUsers();
+
+
 
 serve({
   fetch: app.fetch,
-  port: 3000
-}, (info) => {
-  console.log(`Server is running on http://localhost:${info.port}`)
-})
+});
+
+console.log(`Server running on http://localhost:3000`);
