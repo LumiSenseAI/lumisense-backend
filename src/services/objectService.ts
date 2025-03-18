@@ -16,6 +16,14 @@ export const getObjectById = async (id: string): Promise<IObject | null> => {
     return await ObjectModel.findById(id).populate('idUser'); 
 };
 
+export const getObjectByUserIdAndName = async (userId: string, name: string): Promise<IObject | null> => {
+    console.log(userId, name)
+    return await ObjectModel.findOne({
+        idUser: userId,
+        nom: name,
+    });
+};
+
 export const getAllObjects = async (): Promise<IObject[]> => {
     return await ObjectModel.find().populate('idUser'); 
 };
