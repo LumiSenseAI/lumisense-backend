@@ -3,21 +3,28 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
+
 export const authenticate = async (ctx: Context, next: () => Promise<void>) => {
-    const authHeader = ctx.req.header('Authorization');
-    if (!authHeader) {
+    const cookieHeader = ctx.req.header('Cookie');
+    // const cookieAuth = ctx.req.header('Authorization');
+    // console.log(cookieHeader);
+    // console.log(cookieAuth);
+
+    if (!cookieHeader) {
         return ctx.json({ message: 'Token missing' }, 401);
     }
 
-    const token = authHeader.split(' ')[1];
+    const cookies = Object.fromEntries(cookieHeader.split('; ').map(c => c.split('=')));
+    const token = cookies.token; 
+
+    if (!token) {
+        return ctx.json({ message: 'Token missing' }, 401);
+    }
 
     try {
-        console.log("token :", token)
-        console.log("JWT :", JWT_SECRET)
         const decoded = jwt.verify(token, JWT_SECRET);
-        // console.log(decoded)
-        // ctx.set('user', decoded);
-        
+        ctx.set('user', decoded);
+
         return next();
     } catch (error) {
         return ctx.json({ message: 'Invalid or expired token' }, 401);
