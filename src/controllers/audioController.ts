@@ -1,8 +1,11 @@
 import type { Context } from 'hono';
 import { processAudioFile } from '../services/audioService.js';
+import { getObjectByUserIdAndName } from '../services/objectService.js';
 
 export const handleAudioUpload = async (ctx: Context) => {
     try {
+        const userId = ctx.get('user').id;
+
         const formData = await ctx.req.parseBody();
         const audioFile = formData['audio'];
 
@@ -11,6 +14,10 @@ export const handleAudioUpload = async (ctx: Context) => {
         }
 
         const result = await processAudioFile(audioFile);
+
+        const object = await getObjectByUserIdAndName(userId, result.name);
+
+        result.id = object?.id;
 
         if (result) {
             return ctx.json({ success: true, ...result });
