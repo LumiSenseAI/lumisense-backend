@@ -10,6 +10,6 @@ objectRouter.get('/:id', authenticate, ObjectController.getObjectById);
 objectRouter.post('/', authenticate, ObjectController.createObject); 
 objectRouter.put('/:id', authenticate, ObjectController.updateObject); 
 objectRouter.delete('/:id', authenticate, ObjectController.deleteObject); 
-objectRouter.get('/user/:userId', authenticate, ObjectController.getObjectsByUser);
+objectRouter.get('/user', authenticate, ObjectController.getObjectsByUser);
 
 export default objectRouter;

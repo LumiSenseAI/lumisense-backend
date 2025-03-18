@@ -48,19 +48,13 @@ export const deleteObject = async (ctx: Context) => {
 };
 
 export const getObjectsByUser = async (ctx: Context) => {
-    const userId = ctx.req.param('userId');
+    const userId = ctx.state.user.id; 
 
     try {
         const objects = await ObjectService.getObjectsByUser(userId);
-
-        if (!objects || objects.length === 0) {
-            return ctx.json({ message: 'No objects found for this user' }, 404);
-        }
-
         return ctx.json(objects);
     } catch (error) {
-        console.error(error);
-        return ctx.json({ message: 'Error retrieving objects' }, 500);
+        return ctx.json({ message: 'Error fetching objects' }, 500);
     }
 };
 

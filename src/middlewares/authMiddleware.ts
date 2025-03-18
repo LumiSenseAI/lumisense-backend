@@ -21,7 +21,6 @@ export const authenticate = async (ctx: Context, next: () => Promise<void>) => {
         return ctx.json({ message: 'Token missing' }, 401);
     }
 
-    // Supposons que le token est envoyé sous la forme "Bearer <token>"
     const [bearer, token] = authHeader.split(' ');
 
     if (bearer !== 'Bearer' || !token) {
@@ -29,7 +28,7 @@ export const authenticate = async (ctx: Context, next: () => Promise<void>) => {
     }
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, JWT_SECRET) as { id: string; email: string; role: string };
         ctx.set('user', decoded);
 
         await next();
