@@ -12,13 +12,15 @@
     "dotenv": "^16.4.7",
     "firebase": "^11.4.0",
     "firebase-admin": "^13.2.0",
+    "groq-sdk": "^0.16.0",
     "hono": "^4.7.4",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.14.2",
-    "mongoose": "^8.12.1"
+    "mongoose": "^8.12.1",
+    "openai": "^4.87.3"
   },
   "devDependencies": {
-    "@types/node": "^20.11.17",
+    "@types/node": "^20.17.24",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.1",
     "typescript": "^5.8.2"
