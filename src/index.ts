@@ -5,6 +5,7 @@ import { cors } from 'hono/cors'
 import { initializeUsers } from './config/initIUsers.js';
 import objectRouter from './routes/objectRoutes.js'
 import authRouter from './routes/authRoutes.js';
+import userRouter from './routes/userRoutes.js';
 import audioRouter from './routes/audioRoutes.js';
 
 const app = new Hono();
@@ -25,6 +26,7 @@ await initializeUsers();
 app.route('/api/object', objectRouter);
 app.route('/api/auth', authRouter);
 app.route('/api/audio', audioRouter);
+app.route('/api/user', userRouter);
 
 serve({
   fetch: app.fetch,
