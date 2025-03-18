@@ -9,6 +9,7 @@ export const generateAuthToken = (user: IUser): string => {
     const payload = {
         id: user._id,
         email: user.email,
+        username: user.username,
         role: user.role,
     };
 
