@@ -2,6 +2,12 @@ import { ObjectModel } from '../models/objectModel.js';
 import type { IObject } from '../models/objectModel.js';  
 
 export const createObject = async (objectData: Partial<IObject>): Promise<IObject> => {
+    const existingObject = await ObjectModel.findOne({ type: objectData.type });
+
+    if (existingObject) {
+        throw new Error('Ce nom est déjà pris');
+    }
+
     const object = new ObjectModel(objectData);
     return await object.save();
 };
@@ -20,4 +26,8 @@ export const updateObject = async (id: string, objectData: Partial<IObject>): Pr
 
 export const deleteObject = async (id: string): Promise<IObject | null> => {
     return await ObjectModel.findByIdAndDelete(id);
+};
+
+export const getObjectsByUser = async (userId: string): Promise<IObject[]> => {
+    return await ObjectModel.find({ idUser: userId });
 };
