@@ -7,6 +7,7 @@ import objectRouter from './routes/objectRoutes.js'
 import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import audioRouter from './routes/audioRoutes.js';
+import mqttRouter from './routes/mqttRoutes.js';
 
 const app = new Hono();
 
@@ -27,6 +28,7 @@ app.route('/api/object', objectRouter);
 app.route('/api/auth', authRouter);
 app.route('/api/audio', audioRouter);
 app.route('/api/user', userRouter);
+app.route('/api/mqtt', mqttRouter);
 
 serve({
   fetch: app.fetch,
